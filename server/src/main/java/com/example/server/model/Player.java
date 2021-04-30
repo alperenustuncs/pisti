@@ -1,90 +1,72 @@
 package com.example.server.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "STUDENT")
+@Table(name = "PLAYER")
 public class Player {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "EMAIL")
+    private String email;
 
-    @Column(name = "SURNAME")
-    private String surname;
+    @Column(name = "USERNAME", unique = true)
+    private String username;
 
-    @Column(name = "DEPARTMENT")
-    private String department;
+    @Column(name = "PASSWORD")
+    private String password;
 
-    @Column(name = "YEAR")
-    private int year;
-
-    @Column(name = "GPA")
-    private double gpa;
+    @OneToMany(mappedBy = "player")
+    private List<Score> scores;
 
     public Player(){
 
     }
 
-    public Player(int id, String name, String surname, String department, int year, double gpa) {
+    public Player(int id, String email, String username, String password) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.department = department;
-        this.year = year;
-        this.gpa = gpa;
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getEmail() {
+        return email;
     }
 
-    public String getName() {
-        return name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUsername() {
+        return username;
     }
 
-    public String getSurname() {
-        return surname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String getPassword(){
+        return password;
     }
 
-    public String getDepartment() {
-        return department;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public List<Score> getScores(){
+        return scores;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public double getGpa() {
-        return gpa;
-    }
-
-    public void setGpa(double gpa) {
-        this.gpa = gpa;
+    public void setScores(List<Score> scores){
+        this.scores = scores;
     }
 }
