@@ -1,0 +1,26 @@
+[
+  {
+    "id": 68,
+    "email": "email2_updated",
+    "username": "username2",
+    "password": "$2a$10$GkHqRLe/kfoGRNQ8Kw1Jy.Guw.4kgyJyUrayWpFzlaSQfzFzkYmsC"
+  },
+  {
+    "id": 69,
+    "email": "email1",
+    "username": "username1",
+    "password": "$2a$10$CGRzEJul7TBgOGA9OIvMMOfjRrJjxe9ClWCIMcvsSDedt8of5GJvS"
+  },
+  {
+    "id": 70,
+    "email": "email3",
+    "username": "username3",
+    "password": "$2a$10$NNJyeOb5kjUUT0M8jLLpBOpzHnIhetF4OMFoTmrR5J2gLjuEe.ftW"
+  },
+  {
+    "id": 71,
+    "email": "email4",
+    "username": "username4",
+    "password": "$2a$10$dQozn3mC2mAfy4CGAZbeM.XPmt7o6B85LmZeN2la7Lljb0AcRddjG"
+  }
+]
