@@ -4,3 +4,4 @@ Mustafa Ali Akcay -- 2330678
 Nureddin Alperen Ustun -- 2397693
 
 General information about project is given in ProjectInfo.pdf
+Postman tests for REST API and database operations are in `server/postman_tests`
