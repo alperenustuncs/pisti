@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * This interface includes functions regarding crud operations on Score entity.
+ * It has functions which helps to create weekly, monthly and all time high score tables.
+ * @author Nureddin Alperen Ustun & Mustafa Ali Akcay
+ */
 @Service
 public interface ScoreService {
     Score addScore(Score score);
