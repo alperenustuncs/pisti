@@ -1,0 +1,7 @@
+localhost:8080/api/player/add
+
+{
+  "email": "email1",
+  "username": "username1",
+  "password": "pass"
+}

@@ -1,0 +1,7 @@
+localhost:8080/api/player/update
+
+{
+  "email": "email2_updated",
+  "username": "username2",
+  "password": "pass"
+}
