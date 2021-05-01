@@ -4,7 +4,12 @@ package com.example.server.model;
 import javax.persistence.*;
 import java.util.Date;
 
-
+/**
+ * This is a Score model class which represents Scores.
+ *
+ * @author Nureddin Alperen Ustun & Mustafa Ali Akcay
+ *
+ */
 @Entity
 @Table(name = "SCORE")
 public class Score {
@@ -16,8 +21,8 @@ public class Score {
     @Column(name = "score")
     private int score;
 
-    @ManyToOne
-    @JoinColumn(name = "player_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "player_id", nullable = false)
     private Player player;
 
     //farkli temporal type olabilir.
@@ -62,10 +67,8 @@ public class Score {
         this.scoreTime = scoreTime;
     }
 
-    public Score(int id, int score, Player player, Date scoreTime){
-        this.id = id;
+    public Score(int score){
         this.score = score;
-        this.player = player;
-        this.scoreTime = scoreTime;
+        this.scoreTime = new Date();
     }
 }
