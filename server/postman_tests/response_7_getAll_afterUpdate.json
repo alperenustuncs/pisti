@@ -1,0 +1,14 @@
+[
+  {
+    "id": 67,
+    "email": "email1",
+    "username": "username1",
+    "password": "$2a$10$jDohIVhtDT/4Qy/8PP5UU.Ur8M2GBWaI2DC8rAZUq84gWqloGVLe2"
+  },
+  {
+    "id": 68,
+    "email": "email2_updated",
+    "username": "username2",
+    "password": "$2a$10$GkHqRLe/kfoGRNQ8Kw1Jy.Guw.4kgyJyUrayWpFzlaSQfzFzkYmsC"
+  }
+]
