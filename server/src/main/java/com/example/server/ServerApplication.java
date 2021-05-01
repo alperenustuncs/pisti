@@ -7,12 +7,17 @@ import com.example.server.service.PlayerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**Starting point of the server, it includes main function.
+ * @author Nureddin Alperen Ustun & Mustafa Ali Akcay
+ */
 @SpringBootApplication
-@EnableSwagger2
 public class ServerApplication {
 
+    /** 
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }
