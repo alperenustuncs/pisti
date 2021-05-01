@@ -13,15 +13,20 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * JpaRepository is extended by functions which are to get all time, monthly,
+ * weekly high scores by descending order.
+ *
+ * @author Nureddin Alperen Ustun & Mustafa Ali Akcay
+ *
+ */
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Integer> {
 
-    List<Score> findAllByOrderByScoreDesc();//not sure with this one
+    List<Score> findAllByOrderByScoreDesc();
     List<Score> findAllByScoreTimeBetweenOrderByScoreDesc(
             Date publicationTimeStart,
             Date publicationTimeEnd);
-    //List<Score> findAllByPlayerOrderByScoreDesc(Player player);
 
 }
 
