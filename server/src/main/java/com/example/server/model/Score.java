@@ -21,7 +21,7 @@ public class Score {
     @Column(name = "score")
     private int score;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id", nullable = false)
     private Player player;
 

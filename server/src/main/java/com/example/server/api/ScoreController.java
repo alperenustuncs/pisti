@@ -50,18 +50,15 @@ public class ScoreController {
      * @return the information of the player which a score is added to
      * @exception throws Exception if wanted player is not found
      */
-    @PostMapping("/api/players/{playerId}/scores")
-    public Score createComment(@PathVariable (value = "playerId") int playerId,
-                                 @RequestBody Score score) {
-        try {
-            return playerRepository.findById(playerId).map(post -> {
-                score.setPlayer(post);
-                return scoreRepository.save(score);
-            }).orElseThrow(() -> new Exception());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    @PostMapping("/api/players/{playerId}/{score}")
+    public ResponseEntity<Score> addScore(@PathVariable (value = "playerId") int playerId,
+                                 @PathVariable (value = "score") int score) {
+        Player player = this.playerService.findPlayer(playerId);
+        System.out.println(player.getUsername());
+        Score scoreObj = new Score(score);
+        scoreObj.setPlayer(player);
+        System.out.println(scoreObj);
+        return ResponseEntity.ok().body(this.scoreService.addScore(scoreObj));
     }
 
     /**

@@ -21,4 +21,8 @@ public interface PlayerService {
     void deletePlayer(int id);
     Player findPlayer(String username);
     Player findPlayer(int id);
+    Player findPlayer(String email, String password);
+    void forgottenPassword(String username);
+    void updatePassword(String password, String token);//exceptions are yet to be thrown
+
 }

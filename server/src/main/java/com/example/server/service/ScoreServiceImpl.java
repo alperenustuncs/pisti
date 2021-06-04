@@ -7,6 +7,7 @@ import com.example.server.repository.ScoreRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class ScoreServiceImpl implements ScoreService{
      * @return added score
      */
     @Override
+    @Transactional
     public Score addScore(Score score) {
         return scoreRepository.save(score);
     }
@@ -40,6 +42,7 @@ public class ScoreServiceImpl implements ScoreService{
      * @return all the scores
      */
     @Override
+    @Transactional
     public List<Score> getAllScores() {
         return scoreRepository.findAll();
     }
@@ -48,6 +51,7 @@ public class ScoreServiceImpl implements ScoreService{
      *
      * @return weekly high scores by descending order
      */
+    @Transactional
     public List<Score> getWeeklyHighScores(){
 
         return scoreRepository.findAllByScoreTimeBetweenOrderByScoreDesc(new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)),new Date());
@@ -57,6 +61,7 @@ public class ScoreServiceImpl implements ScoreService{
      *
      * @return monthly high scores by descending order
      */
+    @Transactional
     public List<Score> getMonthlyHighScores(){
         return scoreRepository.findAllByScoreTimeBetweenOrderByScoreDesc(new Date(System.currentTimeMillis() - (30 * DAY_IN_MS)),new Date());
     }
@@ -65,6 +70,7 @@ public class ScoreServiceImpl implements ScoreService{
      *
      * @return all time high scores by descending order
      */
+    @Transactional
     public List<Score> getAllTimeHighScores(){
         return scoreRepository.findAllByOrderByScoreDesc();
     }
@@ -75,6 +81,7 @@ public class ScoreServiceImpl implements ScoreService{
      * @return updated score
      */
     @Override
+    @Transactional
     public Score updateScore(Score score) {
         Score scoreToUpdate = scoreRepository.getOne(score.getId());
         scoreToUpdate.setPlayer(score.getPlayer());
@@ -88,6 +95,7 @@ public class ScoreServiceImpl implements ScoreService{
      * @param idList score id list
      */
     @Override
+    @Transactional
     public void deleteScore(List<Integer> idList) {
         for (int id : idList) {
             scoreRepository.deleteById(id);
@@ -101,6 +109,7 @@ public class ScoreServiceImpl implements ScoreService{
      * @return desired score object
      */
     @Override
+    @Transactional
     public Score findScore(JSONObject jsonScore) {
         int id = jsonScore.getInt("id");
         return scoreRepository.getOne(id);

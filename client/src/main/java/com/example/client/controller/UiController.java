@@ -120,7 +120,7 @@ public class UiController implements Initializable {
 
     @FXML
     public void clickLoginButton() {
-        StageInitializer.stage2.show();
+        //StageInitializer.menuStage.show();
     }
 
     @FXML

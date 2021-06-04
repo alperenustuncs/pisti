@@ -4,10 +4,11 @@ import com.example.server.model.Player;
 import com.example.server.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * This class is the Rest api for player model
@@ -19,6 +20,9 @@ import java.util.List;
 public class PlayerController {
     @Autowired
     private PlayerService playerService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     /**
      *
@@ -30,6 +34,15 @@ public class PlayerController {
         return ResponseEntity.ok().body(this.playerService.addPlayer(player));
     }
 
+    //I don't know what happens if the password is incorrect.
+    @PostMapping("/login")
+    public ResponseEntity<Player> login(@RequestBody Map<String, ?> input){
+        String username = (String)input.get("username");
+        String password = ((String)input.get("password"));
+        System.out.println("username "+username+"password"+password);
+        Player player = this.playerService.findPlayer(username,password);
+        return ResponseEntity.ok().body(player);
+    }
     /**
      *
      * @param player player to be updated

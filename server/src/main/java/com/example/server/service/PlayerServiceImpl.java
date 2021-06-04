@@ -1,13 +1,18 @@
 package com.example.server.service;
 
+
 import com.example.server.model.Player;
+import com.example.server.model.SecureToken;
 import com.example.server.repository.PlayerRepository;
+import com.example.server.repository.SecureTokenRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +37,63 @@ public class PlayerServiceImpl implements PlayerService{
     private PlayerRepository playerRepository;
 
     @Autowired
+    SecureTokenRepository secureTokenRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private SecureTokenService secureTokenService;
+
+    private String tokenMessage = "Your token is: ";
+
+    //forgotten password part
+
+    public void forgottenPassword(String email){
+        Player player = playerRepository.findPlayerByEmail(email);
+        sendResetPasswordEmail(player);
+    }
+
+    /**
+     * updates password if token is valid
+     * @param password
+     * @param token
+     */
+    public void updatePassword(String password, String token){
+        SecureToken secureToken = secureTokenService.findByToken(token);
+
+        if(secureToken == null || secureToken.isExpired()){//normally exception needs to be thrown
+            return;
+        }
+
+        Player player = secureToken.getPlayer();
+        player.setPassword(password);
+        updatePlayer(player);
+    }
+
+    protected void sendResetPasswordEmail(Player player){
+        //sending an email
+        System.out.println("sendResetPasswordEmail start!");
+        SecureToken secureToken= secureTokenService.createSecureToken();
+        secureToken.setPlayer(player);
+        secureTokenRepository.save(secureToken);
+        System.out.println("im at sendResetPasswordEmail"+player.getEmail());
+        System.out.println(tokenMessage);
+        try {
+            emailService.sendSimpleEmail(player.getEmail(),"Password Reset", tokenMessage + secureToken.getToken());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //kendisi zorla override ettirdi
+    @Override
+    public String encodeTest(String pass) {
+        return null;
+    }
 
     /**
      *
@@ -50,7 +110,8 @@ public class PlayerServiceImpl implements PlayerService{
         Player playerToAdd = new Player();
         playerToAdd.setUsername(player.getUsername());
         playerToAdd.setEmail(player.getEmail());
-        playerToAdd.setPassword(passwordEncoder.encode(player.getPassword()));
+        playerToAdd.setPassword(player.getPassword());
+        //playerToAdd.setPassword(passwordEncoder.encode(player.getPassword()));encoding will be on frontend
         return playerRepository.save(playerToAdd);
     }
 
@@ -73,7 +134,7 @@ public class PlayerServiceImpl implements PlayerService{
         Player playerToUpdate = playerRepository.findPlayerByUsername(player.getUsername());
         playerToUpdate.setUsername(player.getUsername());
         playerToUpdate.setEmail(player.getEmail());
-        playerToUpdate.setPassword(passwordEncoder.encode(player.getPassword()));
+        playerToUpdate.setPassword((player.getPassword()));
         playerRepository.save(playerToUpdate);
         return playerToUpdate;
     }
@@ -109,6 +170,8 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
 
+
+
     /**
      * Return a player using player's id
      * @param id player's id
@@ -117,5 +180,9 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player findPlayer(int id) {
         return playerRepository.getOne(id);
+    }
+
+    public Player findPlayer(String username, String password){
+        return playerRepository.findPlayerByUsernameAndPassword(username, password);
     }
 }

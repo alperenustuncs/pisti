@@ -1,5 +1,6 @@
 package com.example.client;
 
+import com.example.client.controller.SignInUiController;
 import com.example.client.controller.UiController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,12 +19,14 @@ import java.io.IOException;
 @Component
 public class StageInitializer implements ApplicationListener<UiApplication.StageReadyEvent> {
     @Value("classpath:/ui.fxml") private Resource uiResuorce;
+    @Value("classpath:/signinUi.fxml") private Resource signInUiResource;
     @Value("${spring.application.ui.windowWidth}") private int windowWidth;
     @Value("${spring.application.ui.windowHeight}") private int windowHeight;
     private String applicationTitle;
     private ApplicationContext applicationContext;
 
-    public static Stage stage2;
+
+
 
     public StageInitializer(@Value("${spring.application.ui.title}") String applicationTitle,
                             ApplicationContext applicationContext) {
@@ -37,23 +40,23 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
 
         createLoginStage(stageReadyEvent).show();
 
-        setUpStage2();
     }
 
     private Stage createLoginStage(UiApplication.StageReadyEvent stageReadyEvent) {
         Stage stage = stageReadyEvent.getStage();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(uiResuorce.getURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(signInUiResource.getURL());
             fxmlLoader.setControllerFactory(aClass -> applicationContext.getBean(aClass));
             Parent parent = fxmlLoader.load();
-            UiController controller = fxmlLoader.getController();
+            SignInUiController controller = fxmlLoader.getController();
 
-            stage.addEventFilter(WindowEvent.WINDOW_SHOWN, windowEvent -> {
-                controller.loseFocus();
-                controller.metuLogo.setFitWidth(controller.table.getWidth());
-                controller.metuLogo.setFitHeight(controller.table.getHeight());
-                controller.table.setPlaceholder(controller.metuLogo);
-            });
+//            stage.addEventFilter(WindowEvent.WINDOW_SHOWN, windowEvent -> {
+//                controller.loseFocus();
+//                controller.metuLogo.setFitWidth(controller.table.getWidth());
+//                controller.metuLogo.setFitHeight(controller.table.getHeight());
+//                controller.table.setPlaceholder(controller.metuLogo);
+//            });
+
             stage.setScene(new Scene(parent, windowWidth, windowHeight));
             stage.setTitle(applicationTitle);
         } catch (IOException e) {
@@ -61,11 +64,5 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
         }
 
         return stage;
-    }
-
-    private void setUpStage2() {
-        stage2 = new Stage(); // Create a new stage
-        stage2.setTitle("Second Stage"); // Set the stage title
-        stage2.setScene(new Scene(new Button("New Stage"), 800, 600));
     }
 }

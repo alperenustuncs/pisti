@@ -15,4 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
     Player findPlayerByUsername(String username);
     Player findPlayerByEmail(String email);
+    Player findPlayerByEmailAndPassword(String username, String password);//For login
+
+    Player findPlayerByUsernameAndPassword(String username, String password);
 }
