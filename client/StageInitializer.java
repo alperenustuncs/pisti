@@ -1,7 +1,7 @@
 package com.example.client;
 
-import com.example.client.controller.SignInUiController;
 import com.example.client.controller.UiController;
+import com.example.client.controller.SignInUiController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
 
 @Component
 public class StageInitializer implements ApplicationListener<UiApplication.StageReadyEvent> {
@@ -25,8 +26,13 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
     private String applicationTitle;
     private ApplicationContext applicationContext;
 
+    private static Stage loginStage;
+    public static Stage getLoginStage() { return loginStage; }
 
+    private Stage stage;
 
+    private static Stage stage2;
+    public static Stage getStage2() { return stage2; }
 
     public StageInitializer(@Value("${spring.application.ui.title}") String applicationTitle,
                             ApplicationContext applicationContext) {
@@ -38,24 +44,18 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
     @Override
     public void onApplicationEvent(UiApplication.StageReadyEvent stageReadyEvent) {
 
-        createLoginStage(stageReadyEvent).show();
+        loginStage = createLoginStage(stageReadyEvent);
+        loginStage.show();
 
+        setUpStage2();
     }
 
     private Stage createLoginStage(UiApplication.StageReadyEvent stageReadyEvent) {
-        Stage stage = stageReadyEvent.getStage();
+        stage = stageReadyEvent.getStage();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(signInUiResource.getURL());
-            fxmlLoader.setControllerFactory(aClass -> applicationContext.getBean(aClass));
+            FXMLLoader fxmlLoader = getFXMLLoader(signInUiResource.getURL());
             Parent parent = fxmlLoader.load();
             SignInUiController controller = fxmlLoader.getController();
-
-//            stage.addEventFilter(WindowEvent.WINDOW_SHOWN, windowEvent -> {
-//                controller.loseFocus();
-//                controller.metuLogo.setFitWidth(controller.table.getWidth());
-//                controller.metuLogo.setFitHeight(controller.table.getHeight());
-//                controller.table.setPlaceholder(controller.metuLogo);
-//            });
 
             stage.setScene(new Scene(parent, windowWidth, windowHeight));
             stage.setTitle(applicationTitle);
@@ -64,5 +64,22 @@ public class StageInitializer implements ApplicationListener<UiApplication.Stage
         }
 
         return stage;
+    }
+
+    private void setUpStage2() {
+        stage2 = new Stage(); // Create a new stage
+        stage2.setTitle("Second Stage"); // Set the stage title
+        stage2.setScene(new Scene(new Button("New Stage"), 800, 600));
+    }
+
+    public FXMLLoader getFXMLLoader(URL location){
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.setControllerFactory(aClass -> applicationContext.getBean(aClass));
+        return fxmlLoader;
+    }
+
+    public void setScene(Scene scene){
+        stage.setScene(scene);
+        stage.show();
     }
 }
