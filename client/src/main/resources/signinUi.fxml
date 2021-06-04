@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="generalLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controller.SignInUiController">
+   <children>
+      <Label layoutX="150.0" layoutY="138.0" text="Username" />
+      <Label layoutX="150.0" layoutY="184.0" text="Password" />
+      <TextField fx:id="usernameBox" layoutX="215.0" layoutY="134.0" />
+      <PasswordField fx:id="passwordBox" layoutX="215.0" layoutY="180.0" />
+      <Button fx:id="signInButton" layoutX="223.0" layoutY="218.0" mnemonicParsing="false" onAction="#clickSignInButton" text="Sign In" />
+      <Button fx:id="signUpButton" layoutX="307.0" layoutY="218.0" mnemonicParsing="false" onAction="#clickSignUpButton" text="Sign Up" />
+      <Hyperlink fx:id="forgotPasswordLink" layoutX="224.0" layoutY="283.0" onAction="#clickForgotPasswordLink" text="Forgot Password?" />
+   </children>
+</Pane>
